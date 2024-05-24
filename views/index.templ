@@ -1,3 +1,12 @@
+package views
+
+import "time"
+
+templ Hello(name string) {
+	<p>{ name }</p>
+}
+
+templ Index(currentDate time.Time) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +17,7 @@
 </head>
 <body>
     <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold text-center mb-8">Workout Plans</h1>
+        <h1 class="text-3xl font-bold text-center mb-8">Workout Plans {currentDate.Format("2006/01/02")}</h1>
         <!-- HTML form with HTMX -->
         <form action="/create-workout" method="post" id="workout-form" class="mb-8">
             <div class="mb-4">
@@ -32,3 +41,5 @@
     </div>
 </body>
 </html>
+
+}

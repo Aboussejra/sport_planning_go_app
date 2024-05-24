@@ -3,6 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sport_planning_go_app/views"
+	"time"
+
+	"github.com/a-h/templ"
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -10,7 +14,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	tmpl.Execute(w, nil)
+	templ.Handler(views.Index(time.Now())).ServeHTTP(w, r)
 }
 
 func createWorkoutHandler(w http.ResponseWriter, r *http.Request) {
