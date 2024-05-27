@@ -4,13 +4,11 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"text/template"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
-var tmpl = template.Must(template.ParseFiles("templates/index.html"))
 
 func main() {
 	var err error
