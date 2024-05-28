@@ -43,6 +43,5 @@ func CreateWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	// Implement database logic here
 	models.SaveWorkout(&workout)
 	// Respond with success message
-	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "Workout created successfully: %s on %s with %d exercises", workout.Name, workout.DayOfWeek, len(workout.Exercises))
 }
