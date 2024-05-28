@@ -1,12 +1,26 @@
-package main
+package models
 
 import (
 	"database/sql"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func saveWorkout(db *sql.DB, workout *Workout) error {
+var db *sql.DB
+
+func InitDb() {
+	var err error
+	db, err = sql.Open("sqlite3", "./database/database.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func CloseDb() {
+	db.Close()
+}
+func SaveWorkout(workout *Workout) error {
 	// Start a transaction
 	tx, err := db.Begin()
 	if err != nil {

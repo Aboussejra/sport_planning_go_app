@@ -1,15 +1,16 @@
-package main
+package handlers
 
 import (
 	"fmt"
 	"net/http"
+	"sport_planning_go_app/models"
 	"sport_planning_go_app/views"
 	"time"
 
 	"github.com/a-h/templ"
 )
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -17,7 +18,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	templ.Handler(views.Index(time.Now())).ServeHTTP(w, r)
 }
 
-func createWorkoutHandler(w http.ResponseWriter, r *http.Request) {
+func CreateWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse form data
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
@@ -35,12 +36,12 @@ func createWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create the workout object
-	workout := Workout{
+	workout := models.Workout{
 		Name:      name,
 		DayOfWeek: dayOfWeek,
 	}
 	// Implement database logic here
-	saveWorkout(db, &workout)
+	models.SaveWorkout(&workout)
 	// Respond with success message
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "Workout created successfully: %s on %s with %d exercises", workout.Name, workout.DayOfWeek, len(workout.Exercises))
