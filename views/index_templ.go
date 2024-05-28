@@ -12,7 +12,7 @@ import "bytes"
 
 import "time"
 
-func Hello(name string) templ.Component {
+func Index(currentDate time.Time) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -25,57 +25,23 @@ func Hello(name string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>My Workout App</title><link href=\"https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css\" rel=\"stylesheet\"><script src=\"https://unpkg.com/htmx.org@1.5.0\"></script></head><body class=\"bg-gray-100\"><div class=\"container mx-auto py-8\"><h1 class=\"text-3xl font-bold text-center mb-8\">Workout Scheduling App</h1><!-- Button container --><div class=\"flex justify-center mb-8\"><button id=\"create_workout_button\" class=\"bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4\" onclick=\"toggleDiv(&#39;create_workout&#39;)\">Create Workout</button> <button id=\"add_exercise_button\" class=\"bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded\" onclick=\"toggleDiv(&#39;add_exercises&#39;)\">Add Exercises</button><!-- Add more buttons here as needed --></div><!-- Divs to be displayed conditionally --><div id=\"create_workout\" class=\"toggle-content hidden\"><p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(name)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 6, Col: 10}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		templ_7745c5c3_Err = CreateWorkout().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div><div id=\"add_exercises\" class=\"toggle-content hidden\"><p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if !templ_7745c5c3_IsBuffer {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
-		}
-		return templ_7745c5c3_Err
-	})
-}
-
-func Index(currentDate time.Time) templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
-		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
-		if !templ_7745c5c3_IsBuffer {
-			templ_7745c5c3_Buffer = templ.GetBuffer()
-			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
-		}
-		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
-		}
-		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>My Workout App</title><link href=\"https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css\" rel=\"stylesheet\"></head><body><div class=\"container mx-auto py-8\"><h1 class=\"text-3xl font-bold text-center mb-8\">Workout Plans ")
+		templ_7745c5c3_Err = AddExercises().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(currentDate.Format("2006/01/02"))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 20, Col: 103}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><!-- HTML form with HTMX --><form action=\"/create-workout\" method=\"post\" id=\"workout-form\" class=\"mb-8\"><div class=\"mb-4\"><label for=\"name\" class=\"block text-gray-700\">Workout Name:</label> <input type=\"text\" id=\"name\" name=\"name\" class=\"form-input mt-1 block w-full\" required></div><div class=\"mb-4\"><label for=\"dayOfWeek\" class=\"block text-gray-700\">Day of the Week:</label> <select id=\"dayOfWeek\" name=\"dayOfWeek\" class=\"form-select mt-1 block w-full\" required><option value=\"Monday\">Monday</option> <option value=\"Tuesday\">Tuesday</option> <option value=\"Wednesday\">Wednesday</option> <option value=\"Thursday\">Thursday</option> <option value=\"Friday\">Friday</option> <option value=\"Saturday\">Saturday</option> <option value=\"Sunday\">Sunday</option></select></div><button type=\"submit\" class=\"bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded\">Create Workout</button></form></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><script>\n        function toggleDiv(divId) {\n            var buttonLists = ['create_workout', 'add_exercises']; // Add more div IDs as needed\n\n            buttonLists.forEach(function(buttonId) {\n                var div = document.getElementById(buttonId);\n                if (divId === buttonId) {\n                    div.classList.remove(\"hidden\");\n                } else {\n                    div.classList.add(\"hidden\");\n                }\n            });\n        }\n    </script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
