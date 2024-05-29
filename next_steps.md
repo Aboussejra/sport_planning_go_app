@@ -1,0 +1,2 @@
+-> Create add-exercices route, add test DB and write unit tests DB part
+-> Test GO ORM ?
