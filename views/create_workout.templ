@@ -1,16 +1,16 @@
 package views
 
 templ CreateWorkout() {
-<div>
-    <h2 class="text-2xl font-bold text-center mb-8">Create Workout</h2>
-    <form hx-post="/create-workout" id="workout-form" class="mb-8"  hx-target="#response-div">
-        <div class="mb-4">
-            <label for="name" class="block text-gray-700">Workout Name:</label>
-            <input type="text" id="name" name="name" class="form-input mt-1 block w-full" required>
+<div class="p-8 bg-gray-800 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center text-white mb-8">Create Workout</h2>
+    <form action="/create-workout" method="post" id="workout-form" class="mb-8 space-y-6">
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-200">Workout Name</label>
+            <input type="text" id="name" name="name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
         </div>
-        <div class="mb-4">
-            <label for="dayOfWeek" class="block text-gray-700">Day of the Week:</label>
-            <select id="dayOfWeek" name="dayOfWeek" class="form-select mt-1 block w-full" required>
+        <div>
+            <label for="dayOfWeek" class="block text-sm font-medium text-gray-200">Day of the Week</label>
+            <select id="dayOfWeek" name="dayOfWeek" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>
                 <option value="Wednesday">Wednesday</option>
@@ -20,8 +20,9 @@ templ CreateWorkout() {
                 <option value="Sunday">Sunday</option>
             </select>
         </div>
-        <button type="submit" class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">Create Workout</button>
+        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Create Workout</button>
     </form>
     <div id="response-div"></div>
 </div>
+
 }

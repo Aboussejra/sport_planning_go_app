@@ -5,47 +5,60 @@ import "time"
 templ Index(currentDate time.Time) {
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Workout App</title>
+    <title>Workout Scheduling App</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
-</head>
-<body class="bg-gradient-to-r from-blue-100 to-purple-200">
-    <div class="container mx-auto py-8">
-        <h1 class="text-3xl font-bold text-center mb-8">Workout Scheduling App</h1>
-
-        <!-- Button container -->
-        <div class="flex justify-center mb-8">
-            <button id="create_workout_button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4" onclick="toggleDiv('create_workout')">Create Workout</button>
-            <button id="add_exercise_button" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" onclick="toggleDiv('add_exercises')">Add Exercises</button>
-            <!-- Add more buttons here as needed -->
-        </div>
-
-        <!-- Divs to be displayed conditionally -->
-        <div id="create_workout" class="toggle-content hidden">
-            <p>@CreateWorkout()</p>
-        </div>
-        <div id="add_exercises" class="toggle-content hidden">
-            <p>@AddExercises()</p>
-        </div>
-    </div>
-    
     <script>
-        function toggleDiv(divId) {
-            var buttonLists = ['create_workout', 'add_exercises']; // Add more div IDs as needed
-
-            buttonLists.forEach(function(buttonId) {
-                var div = document.getElementById(buttonId);
-                if (divId === buttonId) {
-                    div.classList.remove("hidden");
-                } else {
-                    div.classList.add("hidden");
-                }
+        function showContent(section) {
+            const sections = ['create_workout', 'add_exercises'];
+            sections.forEach(sec => {
+                document.getElementById(sec).classList.add('hidden');
             });
+            document.getElementById(section).classList.remove('hidden');
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showContent('create_workout'); // Load the default content on page load
+        });
     </script>
+</head>
+
+<body class="bg-gray-900 text-gray-200">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-800 p-6 shadow-md">
+            <h1 class="text-2xl font-bold mb-6 text-white">Planning</h1>
+            <nav>
+                <ul>
+                    <li class="mb-4">
+                        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700" onclick="showContent('create_workout')">Create Workout</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700" onclick="showContent('add_exercises')">Add Exercises</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <header class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-semibold text-white">Workout Planner</h2>
+            </header>
+            <section id="main-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="create_workout" class="hidden">
+                    @CreateWorkout()
+                </div>
+                <div id="add_exercises" class="hidden">
+                    @AddExercises()
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
+
 </html>
+
 }
