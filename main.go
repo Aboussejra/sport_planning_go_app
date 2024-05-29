@@ -13,6 +13,7 @@ func main() {
 	models.InitDb()
 	http.HandleFunc("/", handlers.IndexHandler)
 	http.HandleFunc("/create-workout", handlers.CreateWorkoutHandler)
+	http.HandleFunc("/add-exercices-to-existing-workouts", handlers.AddExercisesToWorkoutHandlers)
 	log.Println("Starting server on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
