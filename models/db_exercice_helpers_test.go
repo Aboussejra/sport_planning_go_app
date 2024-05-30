@@ -23,6 +23,21 @@ func TestAddExercise(t *testing.T) {
 	}
 }
 
+func TestAddExerciseToWorkout(t *testing.T) {
+	db := setupTestDB(t)
+
+	workout, err := AddWorkout(db, "Full Body Workout", "Monday", []uint{})
+	_, err = AddExerciseToWorkout(db, workout.ID, "Push Up")
+	if err != nil {
+		t.Fatalf("AddExerciseToWorkout failed: %v", err)
+	}
+	// Test uniqueness constraint
+	_, err = AddExerciseToWorkout(db, workout.ID, "Push Up")
+	if err == nil {
+		t.Errorf("expected AddExerciseToWorkout to fail due to unique constraint, but it did not")
+	}
+}
+
 func TestAddExerciseExecution(t *testing.T) {
 	db := setupTestDB(t)
 

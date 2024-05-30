@@ -1,2 +1,3 @@
--> Create add-exercices route, add test DB and write unit tests DB part
--> Test GO ORM ?
+-> Make UI a bit better looking (Center main div, add colours)
+-> Add a base calendar view  (with all workouts on their days )and a Acceuil button in list
+-> Migrate to test package ?

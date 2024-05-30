@@ -15,12 +15,12 @@ const (
 
 type Exercise struct {
 	ID   uint   `gorm:"primaryKey"`
-	Name string `gorm:"not null"`
+	Name string `gorm:"unique;not null"`
 }
 
 type Workout struct {
 	ID        uint       `gorm:"primaryKey"`
-	Name      string     `gorm:"not null"`
+	Name      string     `gorm:"unique;not null"`
 	DayOfWeek string     `gorm:"not null"`
 	Exercises []Exercise `gorm:"many2many:workout_exercises;"`
 }

@@ -21,7 +21,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 func CreateWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	templ.Handler(views.CreateWorkout()).ServeHTTP(w, r)
 }
-func SaveWorkout(w http.ResponseWriter, r *http.Request) {
+func SaveWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse form data
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
@@ -48,7 +48,25 @@ func SaveWorkout(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Workout created successfully: %s on %s with %d exercises", workout.Name, workout.DayOfWeek, len(workout.Exercises))
 	}
 }
+func AddExerciseHandler(w http.ResponseWriter, r *http.Request) {
+	// Parse form data
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
+		return
+	}
+	exercise_name := r.Form.Get("exercise_name")
+	workout_name := r.Form.Get("workout_name")
+	workout, err := models.GetWorkoutByName(models.DB, workout_name)
+	exercise, err := models.AddExerciseToWorkout(models.DB, workout.ID, exercise_name)
+	if err != nil {
+		// Respond with success message
+		fmt.Fprintf(w, "Exercise not created succesfully due to %s", err)
+	} else {
+		// Respond with success message
+		fmt.Fprintf(w, "Exercise %s created successfully and added to workout %s", exercise.Name, workout.Name)
+	}
+}
 
-func AddExercisesToWorkoutHandlers(w http.ResponseWriter, r *http.Request) {
+func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http.Request) {
 	templ.Handler(views.AddExercises(models.ListAllWorkouts(models.DB))).ServeHTTP(w, r)
 }
