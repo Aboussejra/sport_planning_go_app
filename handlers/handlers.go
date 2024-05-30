@@ -38,17 +38,17 @@ func SaveWorkout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Create the workout object
-	workout := models.Workout{
-		Name:      name,
-		DayOfWeek: dayOfWeek,
-	}
 	// Implement database logic here
-	models.SaveWorkout(&workout)
-	// Respond with success message
-	fmt.Fprintf(w, "Workout created successfully: %s on %s with %d exercises", workout.Name, workout.DayOfWeek, len(workout.Exercises))
+	workout, err := models.AddWorkout(models.DB, name, dayOfWeek, []uint{})
+	if err != nil {
+		// Respond with success message
+		fmt.Fprintf(w, "Workout not created succesfully due to %s", err)
+	} else {
+		// Respond with success message
+		fmt.Fprintf(w, "Workout created successfully: %s on %s with %d exercises", workout.Name, workout.DayOfWeek, len(workout.Exercises))
+	}
 }
 
 func AddExercisesToWorkoutHandlers(w http.ResponseWriter, r *http.Request) {
-	templ.Handler(views.AddExercises(models.ListAllWorkoutsDb())).ServeHTTP(w, r)
+	templ.Handler(views.AddExercises(models.ListAllWorkouts(models.DB))).ServeHTTP(w, r)
 }

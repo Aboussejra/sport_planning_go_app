@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	models.InitDb()
+	models.InitDB()
 	http.HandleFunc("/", handlers.IndexHandler)
 	http.HandleFunc("/create-workout", handlers.CreateWorkoutHandler)
 	http.HandleFunc("/save-workout", handlers.SaveWorkout)
@@ -19,5 +19,4 @@ func main() {
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
-	models.CloseDb()
 }

@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 // DayOfWeek represents the day of the week
 type DayOfWeek int
 
@@ -15,26 +13,31 @@ const (
 	Sunday
 )
 
-// Exercise represents an exercise in the database
 type Exercise struct {
-	ID   int
-	Name string
+	ID   uint   `gorm:"primaryKey"`
+	Name string `gorm:"not null"`
 }
 
-// ExerciseExecution represents the execution of an exercise with reps and execution date
-type ExerciseExecution struct {
-	ID            int
-	ExerciseID    int
-	Reps          int
-	ExecutionDate time.Time
-}
-
-// Workout represents a workout, which is a collection of exercises that should be done in a given DayOfWeek
 type Workout struct {
-	ID        int
-	Name      string
-	Exercises []Exercise
-	DayOfWeek string
+	ID        uint       `gorm:"primaryKey"`
+	Name      string     `gorm:"not null"`
+	DayOfWeek string     `gorm:"not null"`
+	Exercises []Exercise `gorm:"many2many:workout_exercises;"`
+}
+
+type WorkoutExercise struct {
+	WorkoutID  uint
+	ExerciseID uint
+}
+
+type ExerciseExecution struct {
+	ID            uint     `gorm:"primaryKey"`
+	ExerciseID    uint     `gorm:"not null"`
+	WorkoutID     uint     `gorm:"not null"`
+	Reps          int      `gorm:"not null"`
+	ExecutionDate string   `gorm:"type:datetime;not null"`
+	Exercise      Exercise `gorm:"foreignKey:ExerciseID"`
+	Workout       Workout  `gorm:"foreignKey:WorkoutID"`
 }
 
 // WeeklyPlan represents the week's objectives with a set of workouts
