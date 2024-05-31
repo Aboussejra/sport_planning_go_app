@@ -1,13 +1,14 @@
-package models
+package test
 
 import (
+	"sport_planning_go_app/models"
 	"testing"
 )
 
 func TestAddExercise(t *testing.T) {
 	db := setupTestDB(t)
 
-	exercise, err := AddExercise(db, "Push Up")
+	exercise, err := models.AddExercise(db, "Push Up")
 	if err != nil {
 		t.Fatalf("AddExercise failed: %v", err)
 	}
@@ -17,7 +18,7 @@ func TestAddExercise(t *testing.T) {
 	}
 
 	// Test uniqueness constraint
-	_, err = AddExercise(db, "Push Up")
+	_, err = models.AddExercise(db, "Push Up")
 	if err == nil {
 		t.Errorf("expected AddExercise to fail due to unique constraint, but it did not")
 	}
@@ -26,13 +27,13 @@ func TestAddExercise(t *testing.T) {
 func TestAddExerciseToWorkout(t *testing.T) {
 	db := setupTestDB(t)
 
-	workout, err := AddWorkout(db, "Full Body Workout", "Monday", []uint{})
-	_, err = AddExerciseToWorkout(db, workout.ID, "Push Up")
+	workout, err := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{})
+	_, err = models.AddExerciseToWorkout(db, workout.ID, "Push Up")
 	if err != nil {
 		t.Fatalf("AddExerciseToWorkout failed: %v", err)
 	}
 	// Test uniqueness constraint
-	_, err = AddExerciseToWorkout(db, workout.ID, "Push Up")
+	_, err = models.AddExerciseToWorkout(db, workout.ID, "Push Up")
 	if err == nil {
 		t.Errorf("expected AddExerciseToWorkout to fail due to unique constraint, but it did not")
 	}
@@ -41,10 +42,10 @@ func TestAddExerciseToWorkout(t *testing.T) {
 func TestAddExerciseExecution(t *testing.T) {
 	db := setupTestDB(t)
 
-	exercise, _ := AddExercise(db, "Push Up")
-	workout, _ := AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
+	exercise, _ := models.AddExercise(db, "Push Up")
+	workout, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
 
-	execution, err := AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
+	execution, err := models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
 	if err != nil {
 		t.Fatalf("AddExerciseExecution failed: %v", err)
 	}
@@ -57,12 +58,12 @@ func TestAddExerciseExecution(t *testing.T) {
 func TestLoadExerciseExecutionsInWorkout(t *testing.T) {
 	db := setupTestDB(t)
 
-	exercise, _ := AddExercise(db, "Push Up")
-	workout, _ := AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
+	exercise, _ := models.AddExercise(db, "Push Up")
+	workout, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
 
-	AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
 
-	executions, err := LoadExerciseExecutionsInWorkout(db, workout.ID, exercise.ID)
+	executions, err := models.LoadExerciseExecutionsInWorkout(db, workout.ID, exercise.ID)
 	if err != nil {
 		t.Fatalf("LoadExerciseExecutionsInWorkout failed: %v", err)
 	}
@@ -79,14 +80,14 @@ func TestLoadExerciseExecutionsInWorkout(t *testing.T) {
 func TestLoadAllExerciseExecutions(t *testing.T) {
 	db := setupTestDB(t)
 
-	exercise, _ := AddExercise(db, "Push Up")
-	workout1, _ := AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
-	workout2, _ := AddWorkout(db, "Upper Body Workout", "Wednesday", []uint{exercise.ID})
+	exercise, _ := models.AddExercise(db, "Push Up")
+	workout1, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
+	workout2, _ := models.AddWorkout(db, "Upper Body Workout", "Wednesday", []uint{exercise.ID})
 
-	AddExerciseExecution(db, exercise.ID, workout1.ID, 15, "2024-05-30 10:00:00")
-	AddExerciseExecution(db, exercise.ID, workout2.ID, 20, "2024-05-31 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout1.ID, 15, "2024-05-30 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout2.ID, 20, "2024-05-31 10:00:00")
 
-	executions, err := LoadAllExerciseExecutions(db, exercise.ID)
+	executions, err := models.LoadAllExerciseExecutions(db, exercise.ID)
 	if err != nil {
 		t.Fatalf("LoadAllExerciseExecutions failed: %v", err)
 	}
