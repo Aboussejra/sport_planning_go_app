@@ -1,3 +1,4 @@
 sport_planning_go_app
 .vscode/
 database.db
+views/**templ.go
