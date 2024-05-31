@@ -1,2 +1,1 @@
--> Make UI a bit better looking (Center main div, add colours)
 -> Add a base calendar view  (with all workouts on their days )and a Acceuil button in list
