@@ -11,7 +11,7 @@ templ AddExercises(workouts []models.Workout, error_fetching_workouts error) {
         <label for="workout" class="block text-sm font-medium text-gray-200">Select Workout</label>
         <select id="workout" name="workout_name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
             for _, workout := range workouts {
-                <option value={"" + workout.Name }> { workout.Name }</option>
+                <option value={"" + workout.Name }> { workout.Name } ({workout.DayOfWeek})</option>
             }
         </select>
     </div>
