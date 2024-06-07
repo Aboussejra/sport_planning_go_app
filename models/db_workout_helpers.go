@@ -41,8 +41,15 @@ func AddWorkout(db *gorm.DB, name string, dayOfWeek string, exerciseIDs []uint) 
 }
 
 // ListAllWorkoutsDb lists all workouts from the database
-func ListAllWorkouts(db *gorm.DB) ([]Workout, error) {
+func ListAllWorkouts(db *gorm.DB) []Workout {
 	var workouts []Workout
 	db.Find(&workouts)
-	return workouts, nil
+	return workouts
+}
+
+// ListAllWorkoutsDb lists all workouts from the database
+func ListAllExercices(db *gorm.DB) []Exercise {
+	var exercises []Exercise
+	db.Find(&exercises)
+	return exercises
 }

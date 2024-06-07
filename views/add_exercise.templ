@@ -3,9 +3,9 @@ package views
 import "sport_planning_go_app/models"
 
 
-templ AddExercises(workouts []models.Workout, error_fetching_workouts error) {
+templ AddExercisesToWorkout(workouts []models.Workout, exercises []models.Exercise) {
 <div class="p-8 bg-gray-800 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold text-center text-white mb-8">Add Exercises</h2>
+    <h2 class="text-2xl font-bold text-center text-white mb-8">Add Exercises to workout</h2>
     <form hx-post="/add-exercise" method="post" id="exercise-form" class="mb-8 space-y-6" hx-target="#response-div">
     <div class="mb-4">
         <label for="workout" class="block text-sm font-medium text-gray-200">Select Workout</label>
@@ -17,7 +17,11 @@ templ AddExercises(workouts []models.Workout, error_fetching_workouts error) {
     </div>
         <div>
             <label for="exercise" class="block text-sm font-medium text-gray-200">Exercise Name</label>
-            <input type="text" id="exercise_input" name="exercise_name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
+        <select type="text" id="exercise_input" name="exercise_name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
+            for _, exercise := range exercises {
+                <option value={"" + exercise.Name }> { exercise.Name }</option>
+            }
+        </select>
         </div>
         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Add Exercise</button>
     </form>
