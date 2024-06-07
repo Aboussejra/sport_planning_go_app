@@ -31,3 +31,18 @@ CREATE TABLE exercise_executions (
     FOREIGN KEY (exercise_id) REFERENCES exercises(id),
     FOREIGN KEY (workout_id) REFERENCES workouts(id)
 );
+
+-- Insert example data into exercises table
+INSERT INTO exercises (name) VALUES ('Développé couché');
+INSERT INTO exercises (name) VALUES ('Ecarté couché');
+INSERT INTO exercises (name) VALUES ('Développé épaules haltères');
+INSERT INTO exercises (name) VALUES ('Traction pronation');
+INSERT INTO exercises (name) VALUES ('Curl marteau');
+INSERT INTO exercises (name) VALUES ('Tennis de table');
+
+-- Insert example data into workouts table
+INSERT INTO workouts (name, day_of_week) VALUES ('Chest Day', 'Monday');
+INSERT INTO workouts (name, day_of_week) VALUES ('Leg Day', 'Tuesday');
+INSERT INTO workouts (name, day_of_week) VALUES ('Back Day', 'Wednesday');
+INSERT INTO workouts (name, day_of_week) VALUES ('Shoulder Day', 'Thursday');
+INSERT INTO workouts (name, day_of_week) VALUES ('Arm Day', 'Friday');
