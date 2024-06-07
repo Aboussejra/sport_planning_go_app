@@ -7,4 +7,4 @@ develop:
 init_prod_db:
 	rm -f database/database.db && sqlite3 database/database.db < database/init.sql
 test_models:
-	go test ./models -v
+	go test ./test
