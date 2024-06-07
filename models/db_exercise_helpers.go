@@ -23,9 +23,9 @@ func AddExerciseToWorkout(db *gorm.DB, workoutID uint, name string) (Exercise, e
 		return Exercise{}, errors.New("workout not found")
 	}
 
-	// Create the exercise
-	exercise, err := AddExercise(db, name)
-	if err != nil {
+	var exercise Exercise
+
+	if err := db.Where("name = ?", name).First(&exercise).Error; err != nil {
 		return Exercise{}, err
 	}
 

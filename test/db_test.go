@@ -8,8 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var test_db *gorm.DB
-
 // Initialize the test database using SQL file
 func initTestDB(sqlFilePath string) (*gorm.DB, error) {
 	// Open the in-memory SQLite database

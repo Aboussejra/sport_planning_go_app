@@ -10,6 +10,15 @@ import (
 	"github.com/a-h/templ"
 )
 
+// TODO Move to helper package
+// errorHandlerWritesToHTTP is a helper function that checks for errors and writes an HTTP error response if an error is found.
+func errorHandlerWritesToHTTP(w http.ResponseWriter, err error, msg string) bool {
+	if err != nil {
+		fmt.Fprintf(w, fmt.Sprintf("%s: %v", msg, err))
+		return true
+	}
+	return false
+}
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -54,17 +63,22 @@ func AddExerciseHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
 		return
 	}
-	exercise_name := r.Form.Get("exercise_name")
-	workout_name := r.Form.Get("workout_name")
-	workout, err := models.GetWorkoutByName(models.DB, workout_name)
-	exercise, err := models.AddExerciseToWorkout(models.DB, workout.ID, exercise_name)
-	if err != nil {
-		// Respond with success message
-		fmt.Fprintf(w, "Exercise not created succesfully due to %s", err)
-	} else {
-		// Respond with success message
-		fmt.Fprintf(w, "Exercise %s created successfully and added to workout %s", exercise.Name, workout.Name)
+	exerciseName := r.Form.Get("exercise_name")
+	workoutName := r.Form.Get("workout_name")
+	// Get workout by name
+	workout, err := models.GetWorkoutByName(models.DB, workoutName)
+	if errorHandlerWritesToHTTP(w, err, "Workout not created successfully") {
+		return
 	}
+
+	// Add exercise to workout
+	exercise, err := models.AddExerciseToWorkout(models.DB, workout.ID, exerciseName)
+	if errorHandlerWritesToHTTP(w, err, "Exercise not created successfully") {
+		return
+	}
+
+	// Respond with success message
+	fmt.Fprintf(w, "Exercise %s created successfully and added to workout %s", exercise.Name, workout.Name)
 }
 
 func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http.Request) {

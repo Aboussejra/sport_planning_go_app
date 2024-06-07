@@ -28,6 +28,13 @@ func TestAddExerciseToWorkout(t *testing.T) {
 	db := setupTestDB(t)
 
 	workout, err := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{})
+	if err != nil {
+		t.Fatalf("AddWorkout failed: %v", err)
+	}
+	_, err = models.AddExercise(db, "Push Up")
+	if err != nil {
+		t.Fatalf("AddExerciose failed: %v", err)
+	}
 	_, err = models.AddExerciseToWorkout(db, workout.ID, "Push Up")
 	if err != nil {
 		t.Fatalf("AddExerciseToWorkout failed: %v", err)

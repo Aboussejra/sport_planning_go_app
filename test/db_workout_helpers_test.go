@@ -37,7 +37,7 @@ func TestGetWorkoutExercises(t *testing.T) {
 	exercise1, _ := models.AddExercise(db, "Push Up")
 	exercise2, _ := models.AddExercise(db, "Pull Up")
 
-	workout, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise1.ID, exercise2.ID})
+	workout, _ := models.AddWorkout(db, "Half Body Workout", "Monday", []uint{exercise1.ID, exercise2.ID})
 
 	exercises, err := models.GetWorkoutExercises(db, workout.ID)
 	if err != nil {
