@@ -11,7 +11,7 @@ templ AddExercisesToWorkout(workouts []models.Workout, exercises []models.Exerci
         <label for="workout" class="block text-sm font-medium text-gray-200">Select Workout</label>
         <select id="workout" name="workout_name" class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-200" required>
             for _, workout := range workouts {
-                <option value={"" + workout.Name }> { workout.Name } ({workout.DayOfWeek})</option>
+                <option id="selected_workout" value={"" + workout.Name }> { workout.Name } ({workout.DayOfWeek})</option>
             }
         </select>
     </div>
@@ -28,4 +28,5 @@ templ AddExercisesToWorkout(workouts []models.Workout, exercises []models.Exerci
         <div id="response-div"></div>
 </div>
 
+<div class="p-8 bg-gray-800 rounded-lg shadow-md"  hx-post="/view-exercises-in-workout" hx-target="this" hx-trigger="change from:#workout" hx-include="#workout">></div>
 }

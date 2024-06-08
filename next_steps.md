@@ -1,5 +1,5 @@
+-> Implement /view-exercises-in-workout
+(Request form contains is workout_name	"Back Day")
 -> Add view showing weekly view with todos.
--> Add Optional/mandatory field to exercise to workout_exercises and to webpage
--
 -> think of missing tests
--> 
+

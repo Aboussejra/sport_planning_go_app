@@ -27,6 +27,8 @@ CREATE TABLE exercise_replacement (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     exercise_id INTEGER NOT NULL,
     replacement_exercise_id INTEGER NOT NULL,
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id),
+    FOREIGN KEY (replacement_exercise_id) REFERENCES exercises(id),
     UNIQUE (exercise_id, replacement_exercise_id)
 );
 

@@ -25,9 +25,22 @@ type Workout struct {
 	Exercises []Exercise `gorm:"many2many:workout_exercises;"`
 }
 
+type ExerciseReplacement struct {
+	ID                    uint     `gorm:"primaryKey;autoIncrement"`
+	ExerciseID            uint     `gorm:"not null"`
+	ReplacementExerciseID uint     `gorm:"not null"`
+	Exercise              Exercise `gorm:"foreignKey:ExerciseID"`
+	ReplacementExercise   Exercise `gorm:"foreignKey:ReplacementExerciseID"`
+}
+
 type WorkoutExercise struct {
-	WorkoutID  uint
-	ExerciseID uint
+	ID            uint     `gorm:"primaryKey;autoIncrement"`
+	WorkoutID     uint     `gorm:"not null"`
+	ExerciseID    uint     `gorm:"not null"`
+	Optional      bool     `gorm:"default:false"`
+	CanBeReplaced bool     `gorm:"default:false"`
+	Workout       Workout  `gorm:"foreignKey:WorkoutID"`
+	Exercise      Exercise `gorm:"foreignKey:ExerciseID"`
 }
 
 type ExerciseExecution struct {
