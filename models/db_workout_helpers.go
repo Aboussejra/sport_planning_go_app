@@ -13,8 +13,8 @@ func GetWorkoutExercises(db *gorm.DB, workoutID uint) ([]Exercise, error) {
 
 // GetWorkoutExercises retrieves exercises for a given workout
 func GetWorkoutByName(db *gorm.DB, workoutName string) (Workout, error) {
-	workout := Workout{Name: workoutName}
-	if err := db.First(&workout).Preload("Exercises").Error; err != nil {
+	var workout Workout
+	if err := db.Preload("Exercises").First(&workout, Workout{Name: workoutName}).Error; err != nil {
 		return workout, err
 	}
 	return workout, nil

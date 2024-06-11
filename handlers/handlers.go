@@ -65,9 +65,10 @@ func AddExerciseHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	exerciseName := r.Form.Get("exercise_name")
 	workoutName := r.Form.Get("workout_name")
+
 	// Get workout by name
 	workout, err := models.GetWorkoutByName(models.DB, workoutName)
-	if errorHandlerWritesToHTTP(w, err, "Workout not created successfully") {
+	if errorHandlerWritesToHTTP(w, err, "Workout not fetched successfully") {
 		return
 	}
 
@@ -87,4 +88,18 @@ func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http
 
 func CalendarMainViewHandler(w http.ResponseWriter, r *http.Request) {
 	templ.Handler(views.CalendarView()).ServeHTTP(w, r)
+}
+
+func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
+		return
+	}
+	workoutName := r.Form.Get("workout_name")
+
+	workout, err := models.GetWorkoutByName(models.DB, workoutName)
+	if errorHandlerWritesToHTTP(w, err, "Workout not fetched successfully") {
+		return
+	}
+	templ.Handler(views.ViewExerciseInWorkout(workout.Exercises)).ServeHTTP(w, r)
 }

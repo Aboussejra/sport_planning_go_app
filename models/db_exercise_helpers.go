@@ -1,8 +1,6 @@
 package models
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -17,12 +15,6 @@ func AddExercise(db *gorm.DB, name string) (Exercise, error) {
 
 // AddExerciseToWorkout adds an exercise to an existing workout
 func AddExerciseToWorkout(db *gorm.DB, workoutID uint, name string) (Exercise, error) {
-	// Check if the workout exists
-	var workout Workout
-	if err := db.First(&workout, workoutID).Error; err != nil {
-		return Exercise{}, errors.New("workout not found")
-	}
-
 	var exercise Exercise
 
 	if err := db.Where("name = ?", name).First(&exercise).Error; err != nil {
@@ -30,7 +22,7 @@ func AddExerciseToWorkout(db *gorm.DB, workoutID uint, name string) (Exercise, e
 	}
 
 	// Add the exercise to the workout
-	workoutExercise := WorkoutExercise{WorkoutID: workout.ID, ExerciseID: exercise.ID}
+	workoutExercise := WorkoutExercise{WorkoutID: workoutID, ExerciseID: exercise.ID}
 	if err := db.Create(&workoutExercise).Error; err != nil {
 		return Exercise{}, err
 	}
