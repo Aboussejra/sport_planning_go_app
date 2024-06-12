@@ -86,8 +86,8 @@ func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http
 	templ.Handler(views.AddExercisesToWorkout(models.ListAllWorkouts(models.DB), models.ListAllExercices(models.DB))).ServeHTTP(w, r)
 }
 
-func CalendarMainViewHandler(w http.ResponseWriter, r *http.Request) {
-	templ.Handler(views.CalendarView()).ServeHTTP(w, r)
+func MainViewHandler(w http.ResponseWriter, r *http.Request) {
+	templ.Handler(views.MainView()).ServeHTTP(w, r)
 }
 
 func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
