@@ -87,7 +87,7 @@ func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http
 }
 
 func MainViewHandler(w http.ResponseWriter, r *http.Request) {
-	templ.Handler(views.MainView()).ServeHTTP(w, r)
+	templ.Handler(views.MainView(time.Now())).ServeHTTP(w, r)
 }
 
 func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -102,4 +102,12 @@ func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	templ.Handler(views.ViewExerciseInWorkout(workout.Exercises)).ServeHTTP(w, r)
+}
+
+func ViewWorkoutGivenDay(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
+		return
+	}
+	//currentDay := r.Form.Get("current_day")
 }
