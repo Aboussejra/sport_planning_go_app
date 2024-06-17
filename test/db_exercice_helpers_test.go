@@ -52,7 +52,7 @@ func TestAddExerciseExecution(t *testing.T) {
 	exercise, _ := models.AddExercise(db, "Push Up")
 	workout, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
 
-	execution, err := models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
+	execution, err := models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, 0, "2024-05-30 10:00:00")
 	if err != nil {
 		t.Fatalf("AddExerciseExecution failed: %v", err)
 	}
@@ -68,7 +68,7 @@ func TestLoadExerciseExecutionsInWorkout(t *testing.T) {
 	exercise, _ := models.AddExercise(db, "Push Up")
 	workout, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
 
-	models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, "2024-05-30 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout.ID, 15, 0, "2024-05-30 10:00:00")
 
 	executions, err := models.LoadExerciseExecutionsInWorkout(db, workout.ID, exercise.ID)
 	if err != nil {
@@ -91,8 +91,8 @@ func TestLoadAllExerciseExecutions(t *testing.T) {
 	workout1, _ := models.AddWorkout(db, "Full Body Workout", "Monday", []uint{exercise.ID})
 	workout2, _ := models.AddWorkout(db, "Upper Body Workout", "Wednesday", []uint{exercise.ID})
 
-	models.AddExerciseExecution(db, exercise.ID, workout1.ID, 15, "2024-05-30 10:00:00")
-	models.AddExerciseExecution(db, exercise.ID, workout2.ID, 20, "2024-05-31 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout1.ID, 15, 0, "2024-05-30 10:00:00")
+	models.AddExerciseExecution(db, exercise.ID, workout2.ID, 20, 0, "2024-05-31 10:00:00")
 
 	executions, err := models.LoadAllExerciseExecutions(db, exercise.ID)
 	if err != nil {

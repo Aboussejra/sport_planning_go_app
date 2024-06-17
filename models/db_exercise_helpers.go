@@ -31,11 +31,12 @@ func AddExerciseToWorkout(db *gorm.DB, workoutID uint, name string) (Exercise, e
 }
 
 // AddExerciseExecution adds a new exercise execution to a workout exercise
-func AddExerciseExecution(db *gorm.DB, exerciseID, workoutID uint, reps int, executionDate string) (ExerciseExecution, error) {
+func AddExerciseExecution(db *gorm.DB, exerciseID, workoutID uint, reps int, weight int, executionDate string) (ExerciseExecution, error) {
 	execution := ExerciseExecution{
 		ExerciseID:    exerciseID,
 		WorkoutID:     workoutID,
 		Reps:          reps,
+		Weight:        weight,
 		ExecutionDate: executionDate,
 	}
 	if err := db.Create(&execution).Error; err != nil {

@@ -48,6 +48,7 @@ type ExerciseExecution struct {
 	ExerciseID    uint     `gorm:"not null"`
 	WorkoutID     uint     `gorm:"not null"`
 	Reps          int      `gorm:"not null"`
+	Weight        int      `gorm:"not null"`
 	ExecutionDate string   `gorm:"type:datetime;not null"`
 	Exercise      Exercise `gorm:"foreignKey:ExerciseID"`
 	Workout       Workout  `gorm:"foreignKey:WorkoutID"`

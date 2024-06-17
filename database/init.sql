@@ -38,6 +38,7 @@ CREATE TABLE exercise_executions (
     exercise_id INTEGER NOT NULL,
     workout_id INTEGER NOT NULL,
     reps INTEGER NOT NULL,
+    weight INTEGER NOT NULL,
     execution_date DATETIME NOT NULL,
     FOREIGN KEY (exercise_id) REFERENCES exercises(id),
     FOREIGN KEY (workout_id) REFERENCES workouts(id)
@@ -74,3 +75,7 @@ VALUES
 INSERT INTO exercise_replacement (exercise_id, replacement_exercise_id) 
 VALUES 
 (5, 7); -- Curl marteau can be replaced with Traction Supination
+
+INSERT INTO exercise_executions (workout_id, exercise_id, reps, weight, execution_date)
+VALUES
+(1, 1, 10, 85, DATE('now'));
