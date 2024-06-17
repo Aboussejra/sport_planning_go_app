@@ -1,0 +1,11 @@
+package views
+
+import "sport_planning_go_app/models"
+
+
+templ ViewUndergoingWorkouts(workouts []models.Workout) {
+    for _, workout := range workouts {
+        <h2> {workout.DayOfWeek} Exercises </h2>
+        @ViewExerciseInWorkout(workout.Exercises)
+    }
+}

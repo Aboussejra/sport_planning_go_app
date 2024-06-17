@@ -20,6 +20,14 @@ func GetWorkoutByName(db *gorm.DB, workoutName string) (Workout, error) {
 	return workout, nil
 }
 
+func GetWorkoutByDay(db *gorm.DB, dayOfWeek string) (Workout, error) {
+	var workout Workout
+	if err := db.Preload("Exercises").First(&workout, Workout{DayOfWeek: dayOfWeek}).Error; err != nil {
+		return workout, err
+	}
+	return workout, nil
+}
+
 // AddWorkout adds a new workout with a list of exercises
 func AddWorkout(db *gorm.DB, name string, dayOfWeek string, exerciseIDs []uint) (Workout, error) {
 	var exercises []Exercise

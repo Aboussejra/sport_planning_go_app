@@ -87,7 +87,7 @@ func WebPageAddExercisesToExistingWorkoutHandlers(w http.ResponseWriter, r *http
 }
 
 func MainViewHandler(w http.ResponseWriter, r *http.Request) {
-	templ.Handler(views.MainView(time.Now())).ServeHTTP(w, r)
+	templ.Handler(views.MainView()).ServeHTTP(w, r)
 }
 
 func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -104,10 +104,17 @@ func ViewExerciseInWorkoutHandler(w http.ResponseWriter, r *http.Request) {
 	templ.Handler(views.ViewExerciseInWorkout(workout.Exercises)).ServeHTTP(w, r)
 }
 
-func ViewWorkoutGivenDay(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Failed to parse form data", http.StatusBadRequest)
+func GetCurrentDayString(w http.ResponseWriter, r *http.Request) {
+	currentTime := time.Now()
+	fmt.Fprintf(w, "%s", currentTime.Weekday().String())
+}
+
+func ViewUndergoingWorkouts(w http.ResponseWriter, r *http.Request) {
+	currentDate := time.Now()
+	workoutCurrentDay, err := models.GetWorkoutByDay(models.DB, currentDate.Weekday().String())
+	if errorHandlerWritesToHTTP(w, err, fmt.Sprintf("Could not find undergoing workouts")) {
 		return
 	}
-	//currentDay := r.Form.Get("current_day")
+	workoutsToView := []models.Workout{workoutCurrentDay}
+	templ.Handler(views.ViewUndergoingWorkouts(workoutsToView)).ServeHTTP(w, r)
 }
